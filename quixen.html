@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quixeny - quixeny.makeIT.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* TEMA NEO-BRUTALISM SAWERIA STYLE */
+        :root {
+            --bg-color: #fae28b;
+            --primary: #f06449;
+            --secondary: #5bc0be;
+            --dark: #121212;
+            --white: #ffffff;
+            --shadow: 5px 5px 0px #121212;
+            --shadow-sm: 3px 3px 0px #121212;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--dark); padding-bottom: 50px; overflow-x: hidden; }
+
+        nav {
+            background: var(--white);
+            border-bottom: 4px solid var(--dark);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-size: 28px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+        .logo span { color: var(--primary); }
+        .nav-actions { display: flex; gap: 15px; align-items: center; }
+
+        /* ULTRA SMOOTH ANIMATIONS & TRANSITIONS */
+        .btn {
+            background: var(--white);
+            border: 3px solid var(--dark);
+            padding: 10px 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0px var(--dark); }
+        .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--dark); }
+        .btn-primary { background: var(--primary); color: var(--white); }
+        .btn-secondary { background: var(--secondary); }
+        .btn-danger { background: #ff595e; color: var(--white); }
+
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .box { background: var(--white); border: 4px solid var(--dark); box-shadow: var(--shadow); padding: 30px; margin-bottom: 30px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hero { text-align: center; background: #fff; padding: 40px 20px; }
+        .hero h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
+
+        .search-container { margin-top: 25px; display: flex; gap: 10px; justify-content: center; }
+        .input-brutal {
+            width: 100%; max-width: 500px; padding: 15px; font-size: 16px; font-weight: 700;
+            border: 3px solid var(--dark); box-shadow: var(--shadow-sm); outline: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .input-brutal:focus { box-shadow: 5px 5px 0px var(--dark); background: #fffdf6; }
+
+        .quiz-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        .quiz-card { background: var(--white); border: 4px solid var(--dark); box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 240px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .quiz-card:hover { transform: translateY(-6px); box-shadow: 8px 8px 0px var(--dark); }
+        .quiz-card h3 { font-size: 22px; font-weight: 800; margin-bottom: 10px; text-transform: uppercase; }
+        .quiz-badge { background: var(--bg-color); border: 2px solid var(--dark); padding: 3px 10px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 15px; }
+
+        /* SMOOTH PAGE TRANSITIONS */
+        .page { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .page.active { display: block; opacity: 1; transform: translateY(0); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; font-size: 14px; }
+
+        .question-box { margin-bottom: 25px; padding: 20px; border: 3px solid var(--dark); background: #fafafa; transition: all 0.3s ease; }
+        .option-label { display: flex; align-items: center; gap: 10px; background: #white; border: 2px solid var(--dark); padding: 12px; margin-bottom: 10px; cursor: pointer; font-weight: 700; transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .option-label:hover { background: var(--bg-color); transform: translateX(4px); }
+        .option-label input { transform: scale(1.2); }
+        
+        .q-creator-box { border-top: 4px dashed var(--dark); padding-top: 20px; margin-top: 20px; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake { animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+
+        @keyframes celebrate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); background-color: #98e390; }
+            100% { transform: scale(1); }
+        }
+        .animate-celebrate { animation: celebrate 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        @media(max-width: 600px) {
+            nav { flex-direction: column; gap: 15px; text-align: center; }
+            .hero h1 { font-size: 28px; }
+            .search-container { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR BRANDING -->
+    <nav>
+        <div class="logo" onclick="showPage('home')">Quix<span>eny</span></div>
+        <div class="nav-actions" id="navAuthSection"></div>
+    </nav>
+
+    <div class="container">
+        <!-- SUPER ADMIN PANEL (tatakaebuntung@gmail.com) -->
+        <div id="adminPanel" class="box" style="display:none; background:#a78bfa;">
+            <h3 style="font-weight:800; text-transform:uppercase; margin-bottom:5px;">🛡️ Panel Jendral Admin (Eren Mode)</h3>
+            <p style="font-size:14px; margin-bottom:15px;">quixeny.makeIT.com - Pemantauan & Moderasi Konten Global</p>
+            
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:15px; margin-bottom:20px;">
+                <div style="background:#fff; border:3px solid var(--dark); padding:15px; box-shadow:var(--shadow-sm);">
+                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#666;">Total Kuis Live</div>
+                    <div id="statTotalQuiz" style="font-size:28px; font-weight:800;">0</div>
+                </div>
+                <div style="background:#fff; border:3px solid var(--dark); padding:15px; box-shadow:var(--shadow-sm);">
+                    <div style="font-size:11px; font-weight:700; text-transform:uppercase; color:#666;">User Terdaftar</div>
+                    <div id="statTotalUser" style="font-size:28px; font-weight:800;">1</div>
+                </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" style="background:#fff" onclick="loadTemplates()">🔄 Muat Kuis Default</button>
+                <button class="btn btn-danger" onclick="resetDatabaseFull()">🚨 Kosongkan Total Storage</button>
+            </div>
+        </div>
+
+        <!-- PAGE: HOME -->
+        <div id="page-home" class="page active">
+            <div class="box hero">
+                <h1>quixeny.makeIT.com</h1>
+                <p>Aplikasi kuis pop-art interaktif buatan anak bangsa berbasis Saweria style.</p>
+                <div class="search-container">
+                    <input type="text" id="searchBar" class="input-brutal" placeholder="Cari kuis atau kategori (misal: Astronomi)..." oninput="filterQuiz()">
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 30px;">
+                <h2 style="font-weight: 800; text-transform: uppercase;">Kuis Tersedia</h2>
+                <button class="btn btn-primary" onclick="goToCreateQuiz()">➕ Buat Kuis Baru</button>
+            </div>
+
+            <div class="quiz-grid" id="quizListContainer"></div>
+        </div>
+
+        <!-- PAGE: AUTH -->
+        <div id="page-auth" class="page">
+            <div class="box" style="max-width: 500px; margin: 0 auto;" id="authBox">
+                <h2 id="authTitle" style="font-weight: 800; text-transform: uppercase; margin-bottom: 20px;">Masuk Akun</h2>
+                <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                    <div class="form-group"><label>Alamat Gmail</label><input type="text" id="authEmail" class="input-brutal" placeholder="nama@gmail.com" required></div>
+                    <div class="form-group"><label>Password</label><input type="password" id="authPassword" class="input-brutal" placeholder="******" required></div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" id="authSubmitBtn">MASUK SEKARANG</button>
+                </form>
+                <p id="authSwitchText" style="margin-top: 20px; text-align: center; font-weight: 700; cursor: pointer; text-decoration: underline;" onclick="toggleAuthMode()">
+                    Belum punya akun? Daftar di sini
+                </p>
+            </div>
+        </div>
+
+        <!-- PAGE: CREATE (LIMIT 15 SOAL) -->
+        <div id="page-create" class="page">
+            <div class="box">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2 style="font-weight: 800; text-transform: uppercase;">Buat Kuis Kustom</h2>
+                    <span id="questionCounterLabel" style="font-weight:800; padding:5px 10px; background:var(--bg-color); border:2px solid var(--dark);">Soal: 1/15</span>
+                </div>
+                <div class="form-group"><label>Judul Kuis</label><input type="text" id="newQuizTitle" class="input-brutal" placeholder="Judul..."></div>
+                <div class="form-group"><label>Kategori</label><input type="text" id="newQuizCategory" class="input-brutal" placeholder="Contoh: Astronomi..."></div>
+                
+                <div id="creatorQuestionsContainer"></div>
+                
+                <div style="display: flex; gap: 15px; margin-top: 25px; flex-wrap:wrap;">
+                    <button id="addQuestionBtn" class="btn btn-secondary" onclick="addQuestionField()">➕ Tambah Pertanyaan</button>
+                    <button class="btn btn-primary" onclick="saveCustomQuiz()">💾 Terbitkan Kuis</button>
+                    <button class="btn btn-danger" onclick="showPage('home')">Batal</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE: PLAY -->
+        <div id="page-play" class="page">
+            <div class="box" id="playQuizBox"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('quixeny_user')) || null;
+        let quizzes = [];
+        let currentAuthMode = 'login';
+        let activeQuizId = null;
+
+        // GENERATE 10 TEMPLATE KUIS BAWAAN UTUH (Masing-masing 10 soal lengkap)
+        const defaultTemplates = [];
+        const categories = ["Astronomi", "Teknologi", "Sains", "Sejarah", "Trivia", "Pendidikan", "Koding", "Matematika", "Geografi", "Umum"];
+        const titles = [
+            "Astronomi Tingkat Lanjut & Astrofisika Kosmik",
+            "Mastering Web Architecture & Software Engineering",
+            "Mekaniska Kuantum Kualitatif & Teori Partikel",
+            "Sejarah Dunia Klasik & Kronologi Peradaban",
+            "Kriptografi Modern & Protokol Keamanan Siber",
+            "Biologi Seluler & Genetika Molekuler",
+            "Struktur Data Kontemporer & Analisis Algoritma",
+            "Sains Gastronomi Kuliner & Reaksi Kimia Pangan",
+            "Mitologi Dunia Kuno & Kesusastraan Klasik",
+            "Wawasan Kosmologi Populer & Fisika Teoretis"
+        ];
+
+        // Buat 10 Kuis
+        for (let i = 0; i < 10; i++) {
+            let qArr = [];
+            // Setiap kuis isi 10 soal
+            for (let j = 1; j <= 10; j++) {
+                if (i === 0) {
+                    // Isi khusus Astronomi Tingkat Lanjut agar berbobot
+                    const astroSoal = [
+                        { q: "Mekanisme fisika apa yang memicu terjadinya kebocoran Radiasi Hawking?", a: "Fluktuasi partikel kuantum ruang hampa", o: ["Fluktuasi partikel kuantum ruang hampa", "Gaya sentrifugal singularitas berputar", "Interaksi fusi materi gelap terikat", "Emisi termal jet plasma relativistik"] },
+                        { q: "Berapakah batas massa Chandrasekhar untuk bintang katai putih?", a: "1.4 Massa Matahari", o: ["1.4 Massa Matahari", "2.1 Massa Matahari", "3.0 Massa Matahari", "0.8 Massa Matahari"] },
+                        { q: "Metrik apakah yang mendeskripsikan ruang-waktu statis lubang hitam tanpa rotasi?", a: "Metrik Schwarzschild", o: ["Metrik Schwarzschild", "Metrik Kerr", "Metrik Reissner-Nordström", "Metrik Minkowski"] },
+                        { q: "Pergeseran merah kosmologis pada galaksi yang menjauh disebabkan oleh...", a: "Metrik ruang hampa alam semesta yang meregang", o: ["Metrik ruang hampa alam semesta yang meregang", "Efek Doppler kinematik objek lokal", "Penyerapan cahaya akibat debu kosmik", "Pelensaan mikro akibat medan luar"] },
+                        { q: "Zaman ketika atom hidrogen netral pertama terbentuk disebut era...", a: "Rekombinasi", o: ["Era Rekombinasi", "Era Nukleosintesis", "Era Inflasi", "Era Reionisasi"] },
+                        { q: "Manakah partikel hipotetis yang melaju melebihi batas absolut kecepatan cahaya?", a: "Tachyon", o: ["Tachyon", "Graviton", "Gluon", "Neutrino"] },
+                        { q: "Semburan Sinar Gamma (GRB) berdurasi panjang umumnya dihasilkan oleh...", a: "Ledakan hipernova kolaps bintang masif", o: ["Ledakan hipernova kolaps bintang masif", "Tabrakan gabungan dua bintang katai", "Suar magnetik energetik bintang kerdil", "Penguapan instan lubang hitam mikro"] },
+                        { q: "Berapa perkiraan nilai Konstanta Hubble laju ekspansi saat ini?", a: "Sekitar 67 - 73 Km/s/Mpc", o: ["Sekitar 67 - 73 Km/s/Mpc", "Sekitar 15 - 30 Km/s/Mpc", "Sekitar 110 - 130 Km/s/Mpc", "Tepat 100 Km/s/Mpc"] },
+                        { q: "Tujuan awal Einstein menyisipkan Konstanta Kosmologis (Lambda) adalah...", a: "Menjaga alam semesta tetap statis", o: ["Menjaga alam semesta tetap statis", "Mempercepat ekspansi galaksi jangkauan", "Membuktikan ledakan besar Big Bang", "Menjelaskan siklus lubang cacing"] },
+                        { q: "Apakah nama partikel kuantum hipotesis pembawa interaksi gaya gravitasi?", a: "Graviton", o: ["Graviton", "Foton", "Boson Higgs", "Gluon"] }
+                    ];
+                    qArr = astroSoal;
+                    break;
+                } else {
+                    qArr.push({
+                        q: `Butir pertanyaan evaluasi nomor ${j} untuk kuis topik jangkauan khusus ${categories[i]}?`,
+                        a: `Pilihan Jawaban Benar A (${j})`,
+                        o: [`Pilihan Jawaban Benar A (${j})`, `Opsi Pilihan B (${j})`, `Opsi Pilihan C (${j})`, `Opsi Pilihan D (${j})`]
+                    });
+                }
+            }
+            defaultTemplates.push({
+                id: "template-quiz-" + (i+1),
+                title: titles[i],
+                category: categories[i],
+                creator: "makeIT Official",
+                questions: qArr
+            });
+        }
+
+        window.onload = function() {
+            if (!localStorage.getItem('quixeny_quizzes')) {
+                localStorage.setItem('quixeny_quizzes', JSON.stringify(defaultTemplates));
+            }
+            quizzes = JSON.parse(localStorage.getItem('quixeny_quizzes'));
+            updateStatsCounters();
+            checkAdminPanelDisplay();
+            renderAuthNav();
+            renderQuizCards(quizzes);
+        };
+
+        function updateStatsCounters() {
+            const userDb = JSON.parse(localStorage.getItem('quixeny_db_users')) || [];
+            document.getElementById('statTotalQuiz').innerText = quizzes.length;
+            document.getElementById('statTotalUser').innerText = userDb.length + 1;
+        }
+
+        function loadTemplates() {
+            localStorage.setItem('quixeny_quizzes', JSON.stringify(defaultTemplates));
+            quizzes = [...defaultTemplates];
+            updateStatsCounters();
+            renderQuizCards(quizzes);
+            alert("✅ 10 Template kuis default dari quixeny.makeIT.com berhasil dikembalikan!");
+        }
+
+        function resetDatabaseFull() {
+            if(confirm("🚨 Bersihkan seluruh data lokal web secara permanen?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+                p.style.display = "none";
+            });
+            const target = document.getElementById('page-' + pageId);
+            if (target) {
+                target.style.display = "block";
+                setTimeout(() => target.classList.add('active'), 20);
+            }
+            if (pageId === 'create') setupCreateQuizForm();
+        }
+
+        function checkAdminPanelDisplay() {
+            const panel = document.getElementById('adminPanel');
+            panel.style.display = (currentUser && currentUser.email === "tatakaebuntung@gmail.com") ? "block" : "none";
+        }
+
+        function renderAuthNav() {
+            const container = document.getElementById('navAuthSection');
+            if (currentUser) {
+                let isAdm = currentUser.email === "tatakaebuntung@gmail.com";
+                let bgStyle = isAdm ? "background:#a78bfa;" : "background:white;";
+                let label = isAdm ? "👑 Jendral Eren (Admin)" : `👋 ${currentUser.name}`;
+                container.innerHTML = `
+                    <span style="font-weight:800; border:2px solid var(--dark); padding:5px 10px; ${bgStyle}">${label}</span>
+                    <button class="btn btn-danger" onclick="logout()">Keluar</button>
+                `;
+            } else {
+                container.innerHTML = `<button class="btn btn-primary" onclick="openLogin()">Masuk Akun</button>`;
+            }
+        }
+
+        function openLogin() { showPage('auth'); }
+
+        function toggleAuthMode() {
+            if (currentAuthMode === 'login') {
+                currentAuthMode = 'register';
+                document.getElementById('authTitle').innerText = "Buat Akun Baru";
+                document.getElementById('authSubmitBtn').innerText = "DAFTAR AKUN GMAIL";
+            } else {
+                currentAuthMode = 'login';
+                document.getElementById('authTitle').innerText = "Masuk Akun";
+                document.getElementById('authSubmitBtn').innerText = "MASUK SEKARANG";
+            }
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const authBox = document.getElementById('authBox');
+
+            // HAK LOGIN MANUAL ADMIN EREN (TIDAK ADA TOMBOL INSTAN)
+            if (email === "tatakaebuntung@gmail.com" && password === "attackontitan") {
+                executeLogin(email, "Jendral Eren");
+                alert("⚔️ Akses Jendral Diterima! Selamat Datang Kembali Admin Eren.");
+                return;
+            }
+
+            if (!email.toLowerCase().endsWith('@gmail.com')) {
+                authBox.classList.add('animate-shake');
+                alert("❌ Eror! Format penulisan wajib berakhiran '@gmail.com'.");
+                setTimeout(() => authBox.classList.remove('animate-shake'), 400);
+                return;
+            }
+
+            let userDb = JSON.parse(localStorage.getItem('quixeny_db_users')) || [];
+
+            if (currentAuthMode === 'register') {
+                if (userDb.some(u => u.email === email) || email === "tatakaebuntung@gmail.com") {
+                    authBox.classList.add('animate-shake');
+                    alert("❌ Email Gmail tersebut sudah terdaftar di sistem!");
+                    setTimeout(() => authBox.classList.remove('animate-shake'), 400);
+                    return;
+                }
+                const name = email.split('@')[0];
+                userDb.push({ email, password, name });
+                localStorage.setItem('quixeny_db_users', JSON.stringify(userDb));
+                executeLogin(email, name);
+                alert("🎉 Pendaftaran berhasil!");
+            } else {
+                const userMatch = userDb.find(u => u.email === email && u.password === password);
+                if (!userMatch) {
+                    authBox.classList.add('animate-shake');
+                    alert("❌ Kombinasi email gmail atau password salah!");
+                    setTimeout(() => authBox.classList.remove('animate-shake'), 400);
+                    return;
+                }
+                executeLogin(userMatch.email, userMatch.name);
+                alert("🔑 Login Berhasil!");
+            }
+        }
+
+        function executeLogin(email, name) {
+            currentUser = { email, name };
+            localStorage.setItem('quixeny_user', JSON.stringify(currentUser));
+            updateStatsCounters();
+            checkAdminPanelDisplay();
+            renderAuthNav();
+            renderQuizCards(quizzes);
+            showPage('home');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('quixeny_user');
+            checkAdminPanelDisplay();
+            renderAuthNav();
+            renderQuizCards(quizzes);
+            showPage('home');
+        }
+
+        function renderQuizCards(data) {
+            const container = document.getElementById('quizListContainer');
+            container.innerHTML = "";
+            data.forEach(q => {
+                let delButton = (currentUser && currentUser.email === "tatakaebuntung@gmail.com") ? 
+                    `<button class="btn btn-danger" style="margin-top:10px; width:100%; justify-content:center;" onclick="adminRemoveQuiz('${q.id}')">🗑️ Hapus Kuis (Admin Role)</button>` : "";
+
+                container.innerHTML += `
+                    <div class="quiz-card">
+                        <div>
+                            <span class="quiz-badge">🏷️ ${q.category}</span>
+                            <h3>${q.title}</h3>
+                            <p style="font-size:12px; color:#555; margin-bottom:10px;">Oleh: <b>${q.creator}</b> (${q.questions.length} Soal)</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-secondary" style="width:100%; justify-content:center;" onclick="startPlayQuiz('${q.id}')">🎯 Mulai Main</button>
+                            ${delButton}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function adminRemoveQuiz(id) {
+            if (confirm("Lelenyapkan kuis ini secara permanen dari beranda?")) {
+                quizzes = quizzes.filter(q => q.id !== id);
+                localStorage.setItem('quixeny_quizzes', JSON.stringify(quizzes));
+                updateStatsCounters();
+                renderQuizCards(quizzes);
+            }
+        }
+
+        function filterQuiz() {
+            const kw = document.getElementById('searchBar').value.toLowerCase();
+            renderQuizCards(quizzes.filter(q => q.title.toLowerCase().includes(kw) || q.category.toLowerCase().includes(kw)));
+        }
+
+        function goToCreateQuiz() { if (!currentUser) { openLogin(); return; } showPage('create'); }
+
+        function setupCreateQuizForm() {
+            document.getElementById('newQuizTitle').value = "";
+            document.getElementById('newQuizCategory').value = "";
+            document.getElementById('creatorQuestionsContainer').innerHTML = "";
+            document.getElementById('addQuestionBtn').style.display = "inline-flex";
+            addQuestionField();
+        }
+
+        // MAKSIMAL KUNCI 15 SOAL
+        function addQuestionField() {
+            const container = document.getElementById('creatorQuestionsContainer');
+            const currentCount = container.children.length + 1;
+            
+            if (currentCount <= 15) {
+                const box = document.createElement('div');
+                box.className = "q-creator-box";
+                box.innerHTML = `
+                    <h4 style="margin-bottom:10px;">Pertanyaan #${currentCount}</h4>
+                    <input type="text" class="input-brutal c-qtext" placeholder="Tulis butir soal..." required style="max-width:100%; margin-bottom:10px;">
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                        <input type="text" class="input-brutal c-opta" placeholder="Pilihan A" required>
+                        <input type="text" class="input-brutal c-optb" placeholder="Pilihan B" required>
+                        <input type="text" class="input-brutal c-optc" placeholder="Pilihan C" required>
+                        <input type="text" class="input-brutal c-optd" placeholder="Pilihan D" required>
+                    </div>
+                    <select class="input-brutal c-correct" style="margin-top:10px; padding:5px;"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>
+                `;
+                container.appendChild(box);
+                document.getElementById('questionCounterLabel').innerText = `Soal: ${currentCount}/15`;
+            }
+            
+            if (container.children.length >= 15) {
+                document.getElementById('addQuestionBtn').style.display = "none";
+            }
+        }
+
+        function saveCustomQuiz() {
+            const title = document.getElementById('newQuizTitle').value.trim();
+            const category = document.getElementById('newQuizCategory').value.trim() || "Umum";
+            const blocks = document.querySelectorAll('.q-creator-box');
+            let loadedArr = [];
+
+            if(!title) { alert("❌ Judul kuis wajib diisi!"); return; }
+
+            blocks.forEach(b => {
+                const qTxt = b.querySelector('.c-qtext').value.trim();
+                const oA = b.querySelector('.c-opta').value.trim();
+                const oB = b.querySelector('.c-optb').value.trim();
+                const oC = b.querySelector('.c-optc').value.trim();
+                const oD = b.querySelector('.c-optd').value.trim();
+                const key = b.querySelector('.c-correct').value;
+                let finalAns = key === "A" ? oA : key === "B" ? oB : key === "C" ? oC : oD;
+                loadedArr.push({ q: qTxt, a: finalAns, o: [oA, oB, oC, oD] });
+            });
+
+            quizzes.unshift({ id: "quiz-" + Date.now(), title, category, creator: currentUser.name, questions: loadedArr });
+            localStorage.setItem('quixeny_quizzes', JSON.stringify(quizzes));
+            updateStatsCounters();
+            showPage('home');
+            renderQuizCards(quizzes);
+        }
+
+        function startPlayQuiz(id) {
+            activeQuizId = id;
+            const quiz = quizzes.find(q => q.id === id);
+            showPage('play');
+            const box = document.getElementById('playQuizBox');
+            let html = `<h2 style="margin-bottom:20px; text-transform:uppercase;">${quiz.title}</h2><form onsubmit="calculateFinalScore(event)">`;
+            
+            quiz.questions.forEach((q, idx) => {
+                if(q.q && q.o && q.o.length > 0) {
+                    html += `<div class="question-box"><h4>${idx + 1}. ${q.q}</h4>`;
+                    q.o.forEach(opt => {
+                        html += `<label class="option-label"><input type="radio" name="ans_${idx}" value="${opt}" required> <span>${opt}</span></label>`;
+                    });
+                    html += `</div>`;
+                }
+            });
+
+            html += `<div style="display:flex; gap:10px;"><button type="submit" class="btn btn-primary">Kirim Hasil</button><button type="button" class="btn btn-secondary" onclick="showPage('home')">Batal</button></div></form>`;
+            box.innerHTML = html;
+        }
+
+        function calculateFinalScore(e) {
+            e.preventDefault();
+            const quiz = quizzes.find(q => q.id === activeQuizId);
+            const form = e.target;
+            const data = new FormData(form);
+            let right = 0;
+            let actualLength = 0;
+
+            quiz.questions.forEach((q, idx) => { 
+                if(q.q && q.o && q.o.length > 0) {
+                    actualLength++;
+                    if(data.get(`ans_${idx}`) === q.a) right++; 
+                }
+            });
+            
+            const score = Math.round((right / actualLength) * 100);
+            const pBox = document.getElementById('playQuizBox');
+            pBox.classList.add('animate-celebrate');
+
+            pBox.innerHTML = `
+                <div style="text-align:center; padding: 20px 0;">
+                    <h1 style="font-size:60px; margin-bottom:15px;">🏆</h1>
+                    <h2 style="text-transform:uppercase;">Kuis Selesai!</h2>
+                    <div style="font-size:48px; font-weight:800; background:var(--primary); color:white; border:3px solid var(--dark); display:inline-block; padding:10px 30px; box-shadow:var(--shadow); margin:20px 0;">${score}</div>
+                    <p style="font-weight:700; margin-bottom:25px;">Anda menjawab benar sebanyak ${right} dari ${actualLength} soal.</p>
+                    <button class="btn btn-secondary" onclick="showPage('home')">Kembali ke Beranda</button>
+                </div>`;
+            setTimeout(() => pBox.classList.remove('animate-celebrate'), 600);
+        }
+    </script>
+</body>
+```html
+    <script>
+        let currentUser = JSON.parse(localStorage.getItem('quixeny_user')) || null;
+        let quizzes = [];
+        let currentAuthMode = 'login';
+        let activeQuizId = null;
+
+        const syncChannel = new BroadcastChannel('quixeny_global_sync');
+        const deviceId = 'dev_' + Math.random().toString(36).substr(2, 9);
+        let onlineDevices = new Set([deviceId]);
+        const restrictedWords = ["18+", "dewasa", "bokep", "sange", "porn", "hentai", "xxx", "vulgar"];
+
+        const defaultTemplates = [];
+        for(let i=1; i<=10; i++) {
+            let cat = i===1 ? "Astronomi" : i===2 ? "Teknologi" : i===3 ? "Sains" : "Umum";
+            let title = i===1 ? "Astronomi Tingkat Lanjut & Astrofisika" : `Template Kuis Resmi #${i}`;
+            let questionsArr = [];
+            for(let j=1; j<=10; j++) {
+                questionsArr.push({ q: j===1&&i===1 ? "Mekanisme kuantum apa yang memicu kebocoran Radiasi Hawking?" : `Pertanyaan esensial nomor ${j} Kategori ${cat}?`, a: "Opsi A", o: ["Opsi A", "Opsi B", "Opsi C", "Opsi D"] });
+            }
+            defaultTemplates.push({ id: "quiz-t"+i, title: title, category: cat, creator: "makeIT Team", questions: questionsArr });
+        }
+
+        window.onload = function() {
+            if (!localStorage.getItem('quixeny_quizzes')) localStorage.setItem('quixeny_quizzes', JSON.stringify(defaultTemplates));
+            quizzes = JSON.parse(localStorage.getItem('quixeny_quizzes'));
+            sendSyncSignal('PING', { id: deviceId });
+            updateStatsCounters(); checkAdminPanelDisplay(); renderAuthNav(); renderQuizCards(quizzes);
+            window.addEventListener('storage', (e) => { if (e.key === 'quixeny_quizzes') { quizzes = JSON.parse(e.newValue); updateStatsCounters(); renderQuizCards(quizzes); } });
+        };
+
+        syncChannel.onmessage = function(event) {
+            const { type, payload } = event.data;
+            if (type === 'PING') { onlineDevices.add(payload.id); sendSyncSignal('PONG', { id: deviceId }); updateDeviceCounter(); }
+            else if (type === 'PONG') { onlineDevices.add(payload.id); updateDeviceCounter(); }
+            else if (type === 'QUIZ_UPDATE') { quizzes = JSON.parse(localStorage.getItem('quixeny_quizzes')) || defaultTemplates; updateStatsCounters(); renderQuizCards(quizzes); }
+            else if (type === 'LOGOUT_DEVICE') { onlineDevices.delete(payload.id); updateDeviceCounter(); }
+        };
+
+        function sendSyncSignal(type, payload) { syncChannel.postMessage({ type, payload }); }
+        function updateDeviceCounter() { const devEl = document.getElementById('statActiveDevices'); if(devEl) devEl.innerText = onlineDevices.size; }
+        function updateStatsCounters() { const userDb = JSON.parse(localStorage.getItem('quixeny_db_users')) || []; document.getElementById('statTotalQuiz').innerText = quizzes.length; document.getElementById('statTotalUser').innerText = userDb.length + 1; updateDeviceCounter(); }
+        function loadTemplates() { localStorage.setItem('quixeny_quizzes', JSON.stringify(defaultTemplates)); quizzes = [...defaultTemplates]; updateStatsCounters(); renderQuizCards(quizzes); sendSyncSignal('QUIZ_UPDATE', {}); alert("✅ Template di-render ulang!"); }
+        function resetDatabaseFull() { if(confirm("Hapus storage?")) { localStorage.clear(); location.reload(); } }
+        function showPage(pageId) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); setTimeout(() => { const t = document.getElementById('page-' + pageId); if (t) t.classList.add('active'); }, 30); if (pageId === 'create') setupCreateQuizForm(); }
+        function checkAdminPanelDisplay() { document.getElementById('adminPanel').style.display = (currentUser && currentUser.email === "tatakaebuntung@gmail.com") ? "block" : "none"; }
+        
+        function renderAuthNav() {
+            const c = document.getElementById('navAuthSection');
+            if (currentUser) {
+                let isAdm = currentUser.email === "tatakaebuntung@gmail.com";
+                c.innerHTML = `<span style="font-weight:800; border:2px solid var(--dark); padding:5px 10px; background:${isAdm?'#a78bfa':'white'};">${isAdm?'👑 Admin Eren':currentUser.name}</span><button class="btn btn-danger" onclick="logout()">Keluar</button>`;
+            } else { c.innerHTML = `<button class="btn btn-primary" onclick="openLogin()">Masuk Akun</button>`; }
+        }
+
+        function openLogin() { showPage('auth'); }
+        function toggleAuthMode() { currentAuthMode = (currentAuthMode === 'login') ? 'register' : 'login'; document.getElementById('authTitle').innerText = currentAuthMode === 'login' ? "Masuk Akun" : "Buat Akun Baru"; }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            if (email === "tatakaebuntung@gmail.com" && password === "attackontitan") { executeLogin(email, "Jendral Eren"); return; }
+            if (!email.toLowerCase().endsWith('@gmail.com')) { alert("❌ Format harus @gmail.com"); return; }
+            executeLogin(email, email.split('@')[0]);
+        }
+
+        function executeLogin(email, name) { currentUser = { email, name }; localStorage.setItem('quixeny_user', JSON.stringify(currentUser)); updateStatsCounters(); checkAdminPanelDisplay(); renderAuthNav(); renderQuizCards(quizzes); showPage('home'); }
+        function logout() { sendSyncSignal('LOGOUT_DEVICE', { id: deviceId }); currentUser = null; localStorage.removeItem('quixeny_user'); checkAdminPanelDisplay(); renderAuthNav(); renderQuizCards(quizzes); showPage('home'); }
+
+        function renderQuizCards(data) {
+            const c = document.getElementById('quizListContainer'); c.innerHTML = "";
+            data.forEach(q => {
+                let del = (currentUser && currentUser.email === "tatakaebuntung@gmail.com") ? `<button class="btn btn-danger" style="margin-top:10px; width:100%; justify-content:center;" onclick="adminRemoveQuiz('${q.id}')">🗑️ Hapus</button>` : "";
+                c.innerHTML += `<div class="quiz-card"><div><span class="quiz-badge">🏷️ ${q.category}</span><h3>${q.title}</h3><p style="font-size:12px; color:#555;">Oleh: <b>${q.creator}</b></p></div><div><button class="btn btn-secondary" style="width:100%; justify-content:center;" onclick="startPlayQuiz('${q.id}')">🎯 Mulai</button>${del}</div></div>`;
+            });
+        }
+
+        function adminRemoveQuiz(id) { if (confirm("Hapus permanen?")) { quizzes = quizzes.filter(q => q.id !== id); localStorage.setItem('quixeny_quizzes', JSON.stringify(quizzes)); updateStatsCounters(); renderQuizCards(quizzes); sendSyncSignal('QUIZ_UPDATE', {}); } }
+        function filterQuiz() { const kw = document.getElementById('searchBar').value.toLowerCase(); renderQuizCards(quizzes.filter(q => q.title.toLowerCase().includes(kw) || q.category.toLowerCase().includes(kw))); }
+        function goToCreateQuiz() { if (!currentUser) { openLogin(); return; } showPage('create'); }
+        function setupCreateQuizForm() { document.getElementById('newQuizTitle').value = ""; document.getElementById('newQuizCategory').value = ""; document.getElementById('creatorQuestionsContainer').innerHTML = ""; document.getElementById('addQuestionBtn').style.display = "inline-flex"; addQuestionField(); }
+
+        function addQuestionField() {
+            const c = document.getElementById('creatorQuestionsContainer'); const count = c.children.length + 1;
+            if (count <= 15) {
+                const box = document.createElement('div'); box.className = "q-creator-box";
+                box.innerHTML = `<h4>Soal #${count}</h4><input type="text" class="input-brutal c-qtext" placeholder="Tulis soal..." required style="max-width:100%; margin-bottom:10px;"><div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;"><input type="text" class="input-brutal c-opta" placeholder="Opsi A" required><input type="text" class="input-brutal c-optb" placeholder="Opsi B" required><input type="text" class="input-brutal c-optc" placeholder="Opsi C" required><input type="text" class="input-brutal c-optd" placeholder="Opsi D" required></div><select class="input-brutal c-correct" style="margin-top:10px; padding:5px;"><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option></select>`;
+                c.appendChild(box); document.getElementById('questionCounterLabel').innerText = `Soal: ${count}/15`;
+            }
+            if (c.children.length >= 15) document.getElementById('addQuestionBtn').style.display = "none";
+        }
+
+        function containsRestrictedContent(text) { const lower = text.toLowerCase(); return restrictedWords.some(w => lower.includes(w)); }
+
+        function saveCustomQuiz() {
+            const title = document.getElementById('newQuizTitle').value.trim();
+            const category = document.getElementById('newQuizCategory').value.trim() || "Umum";
+            const blocks = document.querySelectorAll('.q-creator-box');
+            let loadedArr = [];
+            if(!title) { alert("❌ Judul wajib diisi!"); return; }
+            if (containsRestrictedContent(title) || containsRestrictedContent(category)) { alert("🛑 Konten 18+ Terdeteksi! Gagal terbit."); return; }
+
+            let violation = false;
+            blocks.forEach(b => {
+                const qTxt = b.querySelector('.c-qtext').value.trim();
+                const oA = b.querySelector('.c-opta').value.trim();
+                const oB = b.querySelector('.c-optb').value.trim();
+                const oC = b.querySelector('.c-optc').value.trim();
